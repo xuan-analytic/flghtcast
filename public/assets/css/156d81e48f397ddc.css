@@ -1,0 +1,1 @@
+@keyframes ping-ring-pulse{0%{box-shadow:0 0 0 0 var(--ping-color)}to{box-shadow:0 0 0 var(--ping-spread,50px) transparent}}

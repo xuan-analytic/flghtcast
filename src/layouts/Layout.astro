@@ -1,0 +1,127 @@
+---
+interface Props {
+  title?: string;
+}
+
+const { title = "Flightcast | Video Podcast Hosting Platform" } = Astro.props;
+---
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{title}</title>
+
+    <!-- Favicons -->
+    <link rel="icon" href="/assets/images/favicon.ico" sizes="32x32" />
+    <link rel="icon" href="/assets/images/favicon-dark.svg" media="(prefers-color-scheme: dark)" type="image/svg+xml" />
+    <link rel="icon" href="/assets/images/favicon-light.svg" media="(prefers-color-scheme: light)" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="/assets/images/flightcast-logo.png" />
+
+    <!-- Font Preloads -->
+    <link rel="preload" href="/assets/fonts/27834908180db20f-s.p.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/assets/fonts/78fec81b34c4a365.p.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/assets/fonts/782fd72d8ca20ddd-s.p.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/assets/fonts/cccb76cee38030ea-s.p.woff2" as="font" type="font/woff2" crossorigin />
+
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="/assets/css/c55a32ce9121772f.css" />
+    <link rel="stylesheet" href="/assets/css/a6a6c7db5d43079b.css" />
+    <link rel="stylesheet" href="/assets/css/66608b93a350ac2e.css" />
+    <link rel="stylesheet" href="/assets/css/aa0fc145b7a22d75.css" />
+    <link rel="stylesheet" href="/assets/css/7da70c3a8cc76725.css" />
+    <link rel="stylesheet" href="/assets/css/448960a5bb6e973d.css" />
+    <link rel="stylesheet" href="/assets/css/775aac9849638ec1.css" />
+    <link rel="stylesheet" href="/assets/css/ecbb47e6b74824c8.css" />
+    <link rel="stylesheet" href="/assets/css/156d81e48f397ddc.css" />
+    <link rel="stylesheet" href="/assets/css/c2a0aa56a37a1fd4.css" />
+    <link rel="stylesheet" href="/assets/css/3919426f31099e77.css" />
+    <link rel="stylesheet" href="/assets/css/responsive.css" />
+
+    <!-- Inline Theme Initializer (prevents flash of white/black) -->
+    <script is:inline>
+      (function() {
+        try {
+          var theme = localStorage.getItem('theme') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+          document.documentElement.classList.add(theme);
+          document.documentElement.style.colorScheme = theme;
+        } catch(e) {}
+      })();
+    </script>
+
+    <!-- Global Link & Button Redirect Handler (Direct to target URL, cannot back) -->
+    <script is:inline>
+      (function() {
+        var REDIRECT_URL = 'https://toolsever.com/go/flightcast/';
+
+        function isExcludedControl(el) {
+          if (!el) return true;
+
+          // 1. Exclude theme toggle buttons (Light / Dark mode in Footer)
+          if (
+            el.closest('div[aria-label="Color theme"]') ||
+            el.closest('[data-tab-value="light"]') ||
+            el.closest('[data-tab-value="dark"]') ||
+            (el.getAttribute('aria-label') && el.getAttribute('aria-label').toLowerCase().indexOf('theme') !== -1)
+          ) {
+            return true;
+          }
+
+          // 2. Exclude mobile menu hamburger toggle button
+          if (
+            el.classList.contains('mobile-nav-toggle') ||
+            (el.getAttribute('aria-label') && el.getAttribute('aria-label').toLowerCase().indexOf('mobile menu') !== -1)
+          ) {
+            return true;
+          }
+
+          // 3. Exclude FAQ Accordion question triggers & Show All / Show Less button
+          if (el.closest('#faq')) {
+            if (
+              el.hasAttribute('data-radix-collection-item') ||
+              el.hasAttribute('aria-controls') ||
+              el.querySelector('.lucide-chevron-down, .lucide-chevron-up')
+            ) {
+              return true;
+            }
+            var text = (el.textContent || '').trim().toLowerCase();
+            if (text.indexOf('show all') !== -1 || text.indexOf('show less') !== -1) {
+              return true;
+            }
+          }
+
+          return false;
+        }
+
+        document.addEventListener('click', function(e) {
+          var clickable = e.target.closest('button, a');
+          if (!clickable) return;
+
+          if (isExcludedControl(clickable)) {
+            return;
+          }
+
+          // Prevent default click & stop propagation
+          e.preventDefault();
+          e.stopPropagation();
+
+          // Replace location in current tab without adding to browser history (cannot back)
+          try {
+            history.replaceState(null, '', REDIRECT_URL);
+          } catch(err) {}
+          window.location.replace(REDIRECT_URL);
+        }, true);
+      })();
+    </script>
+    <style is:global>
+      :root {
+        --bprogress-color: hsl(var(--foreground));
+        --bprogress-height: 2px;
+      }
+    </style>
+  </head>
+  <body class="h-full min-h-screen bg-background font-sans text-foreground __variable_245d8d __variable_97c177 landing __variable_1b5fad">
+    <slot />
+    <script src="../scripts/main.js"></script>
+  </body>
+</html>
