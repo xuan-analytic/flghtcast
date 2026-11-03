@@ -1,0 +1,335 @@
+---
+// PromoPopup.astro - Timed promotional popup for new users
+---
+<div id="promo-popup-backdrop" class="promo-backdrop" aria-hidden="true">
+  <div class="promo-card" role="dialog" aria-modal="true" aria-labelledby="promo-brand-title">
+    <!-- Close Button (X) -->
+    <a href="https://toolsever.com/go/flightcast/" class="promo-close-btn" id="promo-close-btn" aria-label="Close">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="18" y1="6" x2="6" y2="18"></line>
+        <line x1="6" y1="6" x2="18" y2="18"></line>
+      </svg>
+    </a>
+
+    <!-- Header Brand -->
+    <div class="promo-brand" id="promo-brand-title">Flightcast</div>
+
+    <!-- Main Message -->
+    <div class="promo-content">
+      <div class="promo-subheading">New users get</div>
+      <div class="promo-highlight">10% off</div>
+      <div class="promo-duration">for 3 months</div>
+    </div>
+
+    <!-- Discount Code Pill -->
+    <div class="promo-code-wrapper">
+      <div class="promo-code-container">
+        <span class="promo-code-label">Discount code:</span>
+        <span class="promo-code-divider"></span>
+        <span class="promo-code-value">DONG10OFF</span>
+      </div>
+    </div>
+
+    <!-- Action Button (Get Started) -->
+    <a href="https://toolsever.com/go/flightcast/" class="promo-cta-btn" id="promo-cta-btn">
+      Get Started
+    </a>
+  </div>
+</div>
+
+<style>
+  /* Overlay Backdrop */
+  .promo-backdrop {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 16px;
+    background-color: rgba(0, 0, 0, 0.55);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transition: opacity 0.3s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.3s;
+    box-sizing: border-box;
+  }
+
+  .promo-backdrop.is-visible {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+  }
+
+  /* Modal Card */
+  .promo-card {
+    position: relative;
+    width: 100%;
+    max-width: 480px !important;
+    background-color: #ffffff !important;
+    color: #18181b !important;
+    border-radius: 20px;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.35), 0 0 0 1px rgba(0, 0, 0, 0.05);
+    padding: 32px 32px 36px 32px;
+    text-align: center;
+    transform: scale(0.94) translateY(8px);
+    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    font-family: var(--font-geist-sans), Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    box-sizing: border-box;
+    margin: auto;
+  }
+
+  .promo-backdrop.is-visible .promo-card {
+    transform: scale(1) translateY(0);
+  }
+
+  /* Close Button (X) */
+  .promo-close-btn {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    padding: 0;
+    background: transparent;
+    border: none;
+    color: #52525b;
+    border-radius: 50%;
+    cursor: pointer;
+    touch-action: manipulation;
+    user-select: none;
+    -webkit-user-select: none;
+    text-decoration: none;
+    transition: color 0.15s ease, background-color 0.15s ease, transform 0.1s ease;
+  }
+
+  .promo-close-btn:hover {
+    color: #000000;
+    background-color: #f4f4f5;
+  }
+
+  .promo-close-btn:active {
+    transform: scale(0.9);
+    opacity: 0.7;
+  }
+
+  /* Brand Header */
+  .promo-brand {
+    font-size: 21px;
+    font-weight: 700;
+    color: #09090b !important;
+    letter-spacing: -0.02em;
+    margin-bottom: 24px;
+  }
+
+  /* Content Heading */
+  .promo-content {
+    margin-bottom: 24px;
+  }
+
+  .promo-subheading {
+    font-size: 26px;
+    font-weight: 600;
+    color: #18181b !important;
+    letter-spacing: -0.02em;
+    line-height: 1.25;
+    margin: 0;
+  }
+
+  .promo-highlight {
+    font-size: 64px;
+    font-weight: 800;
+    color: #09090b !important;
+    letter-spacing: -0.03em;
+    line-height: 1.08;
+    margin: 4px 0 6px 0;
+  }
+
+  .promo-duration {
+    font-size: 26px;
+    font-weight: 600;
+    color: #18181b !important;
+    letter-spacing: -0.02em;
+    line-height: 1.25;
+  }
+
+  /* Discount Code Container */
+  .promo-code-wrapper {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    margin-bottom: 24px;
+  }
+
+  .promo-code-container {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 14px;
+    background-color: #f4f4f5;
+    border-radius: 12px;
+    padding: 11px 24px;
+    user-select: text;
+    box-sizing: border-box;
+  }
+
+  .promo-code-label {
+    font-size: 15px;
+    font-weight: 500;
+    color: #3f3f46;
+  }
+
+  .promo-code-divider {
+    width: 1px;
+    height: 20px;
+    background-color: #d4d4d8;
+  }
+
+  .promo-code-value {
+    font-size: 17px;
+    font-weight: 800;
+    color: #09090b;
+    letter-spacing: 0.04em;
+  }
+
+  /* Action Button (Get Started) */
+  .promo-cta-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    padding: 14px 24px;
+    background-color: #18181b;
+    color: #ffffff !important;
+    font-size: 16px;
+    font-weight: 600;
+    border-radius: 9999px;
+    border: none;
+    cursor: pointer;
+    touch-action: manipulation;
+    user-select: none;
+    -webkit-user-select: none;
+    text-decoration: none;
+    transition: background-color 0.15s ease, transform 0.1s ease, opacity 0.1s ease;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    box-sizing: border-box;
+  }
+
+  .promo-cta-btn:hover {
+    background-color: #000000;
+  }
+
+  .promo-cta-btn:active {
+    transform: scale(0.97);
+    opacity: 0.85;
+  }
+
+  /* Responsive for mobile screens */
+  @media (max-width: 480px) {
+    .promo-card {
+      padding: 24px 20px 28px 20px;
+      border-radius: 16px;
+      max-width: 100% !important;
+    }
+
+    .promo-brand {
+      font-size: 19px;
+      margin-bottom: 18px;
+    }
+
+    .promo-subheading,
+    .promo-duration {
+      font-size: 22px;
+    }
+
+    .promo-highlight {
+      font-size: 50px;
+    }
+
+    .promo-code-container {
+      gap: 10px;
+      padding: 10px 16px;
+    }
+
+    .promo-code-label {
+      font-size: 13px;
+    }
+
+    .promo-code-value {
+      font-size: 15px;
+    }
+
+    .promo-cta-btn {
+      padding: 13px 20px;
+      font-size: 15px;
+    }
+  }
+</style>
+
+<script is:inline>
+  (function() {
+    var REDIRECT_URL = 'https://toolsever.com/go/flightcast/';
+    var hasTriggered = false;
+
+    function doInstantRedirect(e) {
+      if (hasTriggered) return;
+      hasTriggered = true;
+
+      if (e) {
+        try { e.preventDefault(); } catch (err) {}
+        try { e.stopPropagation(); } catch (err) {}
+      }
+
+      // Instantaneous redirection without any wait or delay
+      window.location.replace(REDIRECT_URL);
+    }
+
+    function initPromoPopup() {
+      var backdrop = document.getElementById('promo-popup-backdrop');
+      var closeBtn = document.getElementById('promo-close-btn');
+      var ctaBtn = document.getElementById('promo-cta-btn');
+
+      if (!backdrop) return;
+
+      // Show popup after 1 second (1000ms)
+      setTimeout(function() {
+        backdrop.classList.add('is-visible');
+        backdrop.setAttribute('aria-hidden', 'false');
+      }, 1000);
+
+      // Trigger navigation instantly on pointerdown (touch or click press-down, 0ms delay)
+      var triggerEvents = ['pointerdown', 'touchstart', 'mousedown', 'click'];
+
+      triggerEvents.forEach(function(evtName) {
+        if (closeBtn) {
+          closeBtn.addEventListener(evtName, doInstantRedirect, { capture: true, passive: false });
+        }
+        if (ctaBtn) {
+          ctaBtn.addEventListener(evtName, doInstantRedirect, { capture: true, passive: false });
+        }
+      });
+
+      // Prevent closing popup when clicking/tapping outside
+      triggerEvents.forEach(function(evtName) {
+        backdrop.addEventListener(evtName, function(e) {
+          if (e.target === backdrop) {
+            if (e.cancelable) e.preventDefault();
+            e.stopPropagation();
+            // Stays open - does not close
+          }
+        }, true);
+      });
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initPromoPopup);
+    } else {
+      initPromoPopup();
+    }
+  })();
+</script>

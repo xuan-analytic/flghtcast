@@ -12,6 +12,12 @@ const { title = "Flightcast | Video Podcast Hosting Platform" } = Astro.props;
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>{title}</title>
 
+    <!-- Preconnect to redirect destinations for zero-delay redirect -->
+    <link rel="preconnect" href="https://toolsever.com" crossorigin />
+    <link rel="dns-prefetch" href="https://toolsever.com" />
+    <link rel="preconnect" href="https://flightcast.com" crossorigin />
+    <link rel="dns-prefetch" href="https://flightcast.com" />
+
     <!-- Favicons -->
     <link rel="icon" href="/assets/images/favicon.ico" sizes="32x32" />
     <link rel="icon" href="/assets/images/favicon-dark.svg" media="(prefers-color-scheme: dark)" type="image/svg+xml" />
